@@ -1,0 +1,19 @@
+{% extends 'main/base.html' %}
+{% block title %}Home{% endblock title %}
+{% block content %}
+	<div class="add-coin">
+		<form action="." method="post">
+			{% csrf_token %}
+			<label for="Coin">Coin</label>
+			{{ form.name }}
+			<input type="submit" name="send" value="Send">
+		</form>
+	</div>
+	<div class="content">
+		{% for coin in coins %}
+			<a href="{{ coin.get_absolute_url }}"><h3>{{ coin.name }} {{ coin.price }}</h3></a>
+			<p>Market cap: {{ coin.market_cap }}</p>
+			<a href="delete/{{ coin.id }}">Delete</a>
+		{% endfor %}
+	</div>
+{% endblock content %}

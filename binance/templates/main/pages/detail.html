@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+{% block title %}{{ post.title }}{% endblock title %}
+{% block content %}
+	<h2>{{ coin.name }} {{ coin.price }}</h2>
+	<p>Market cap: {{ coin.market_cap }}</p>
+	{{ coin.description }}
+	{% with comments.count as total_comments %}
+		<h2>{{ total_comments }} comment{{ total_comments|pluralize }}</h2>
+	{% endwith %}
+	{% for comment in comments %}
+		<p>{{ comment.name }} {{ comment.created}}</p>
+		{{ comment.body }}
+	{% empty %}
+		<p>They are no comments yet.</p>
+	{% endfor %}
+	{% if new_comment %}
+		<h2>Your comment added.</h2>
+	{% else %}
+		<form action="." method="post">
+			{{ comment_form.as_p }}
+			{% csrf_token %}
+			<p><input type="submit" value="Add comment"></p>
+		</form>
+	{% endif %}
+{% endblock content %}
